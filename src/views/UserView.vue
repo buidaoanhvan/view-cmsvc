@@ -1,6 +1,6 @@
 <template>
   <div :style="{ padding: '24px', background: '#fff', minHeight: '360px' }">
-    home
+    User
   </div>
 </template>
 <script>
