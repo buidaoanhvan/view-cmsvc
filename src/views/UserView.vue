@@ -5,7 +5,7 @@
 </template>
 <script>
 import api_url from "../configs/api";
-import { http } from "../services/http-common";
+import axios from "axios";
 export default {
   data() {
     return {
@@ -13,7 +13,7 @@ export default {
     };
   },
   async created() {
-    http
+    axios
       .post(api_url.user)
       .then((req) => {
         this.user = req.data.data;

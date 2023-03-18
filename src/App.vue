@@ -1,4 +1,5 @@
 <template>
+  <LoadingVue></LoadingVue>
   <a-layout>
     <a-layout-sider
       v-if="$route.name != 'login' && $route.name != 'found'"
@@ -10,7 +11,7 @@
       <a-menu theme="dark" mode="inline">
         <a-menu-item key="1">
           <user-outlined />
-          <span class="nav-text">nav 1</span>
+          <span class="nav-text">Thương hiệu</span>
         </a-menu-item>
         <a-menu-item key="2">
           <video-camera-outlined />
@@ -49,11 +50,13 @@ import {
   VideoCameraOutlined,
   UploadOutlined,
 } from "@ant-design/icons-vue";
+import LoadingVue from "./components/Loading.vue";
 export default {
   components: {
     UserOutlined,
     VideoCameraOutlined,
     UploadOutlined,
+    LoadingVue,
   },
 };
 </script>

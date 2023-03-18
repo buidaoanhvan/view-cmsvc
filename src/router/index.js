@@ -8,19 +8,23 @@ const routes = [
     path: "/login",
     name: "login",
     component: LoginView,
+    meta: { requiresAuth: false },
   },
   {
     path: "/",
     component: HomeViewVue,
+    meta: { requiresAuth: true },
   },
   {
     path: "/user",
     component: UserViewVue,
+    meta: { requiresAuth: true },
   },
   {
     path: "/:pathMatch(.*)*",
     name: "found",
     component: PathNotFound,
+    meta: { requiresAuth: false },
   },
 ];
 

@@ -23,7 +23,6 @@
 <script>
 import axios from "axios";
 import api_url from "../configs/api";
-import router from "@/router";
 
 export default {
   data() {
@@ -34,21 +33,23 @@ export default {
   },
   methods: {
     onSubmit() {
+      this.$store.commit("LOGIN");
       axios
         .post(api_url.login, {
           email: this.email,
           password: this.password,
         })
         .then((res) => {
-          const { code, message, accessToken } = res.data;
+          const { code, message } = res.data;
           if (code == 200) {
-            localStorage.setItem("user", accessToken);
             this.$notification["success"]({
               message: "Chú ý",
               description: message,
             });
-            router.push("/");
+            this.$router.push({ path: "/" });
+            this.$store.commit("LOGIN_SUCCESS", res.data);
           } else {
+            this.$store.commit("LOGIN_FAILED");
             this.$notification["warning"]({
               message: "Chú ý",
               description: message,
@@ -56,6 +57,11 @@ export default {
           }
         })
         .catch((err) => {
+          this.$store.commit("LOGIN_FAILED");
+          this.$notification["error"]({
+            message: "Chú ý",
+            description: err.message,
+          });
           const { statusCode, message } = err.response.data;
           if (statusCode == 400) {
             message.forEach((message) => {
