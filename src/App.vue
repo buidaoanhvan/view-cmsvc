@@ -42,14 +42,19 @@
         class="header"
       >
         <a-dropdown>
-          <a class="ant-dropdown-link" @click.prevent>
-            {{ this.$store.getters.CURRENT_USER?.fullname }}
-            <DownOutlined />
-          </a>
+          <a-avatar>{{
+            this.$store.getters.CURRENT_USER?.fullname.charAt(0)
+          }}</a-avatar>
+
           <template #overlay>
             <a-menu>
-              <a-menu-item>
-                <a href="javascript:;" @click="isLogout">Đăng xuất</a>
+              <a-menu-item key="1" disabled>{{
+                this.$store.getters.CURRENT_USER?.fullname
+              }}</a-menu-item>
+              <a-menu-item key="2">
+                <a-typography-text type="danger" @click="isLogout"
+                  >Đăng xuất</a-typography-text
+                >
               </a-menu-item>
             </a-menu>
           </template>
@@ -77,7 +82,6 @@ import {
   DashboardOutlined,
 } from "@ant-design/icons-vue";
 import LoadingVue from "./components/Loading.vue";
-import { DownOutlined } from "@ant-design/icons-vue";
 export default {
   components: {
     ShopOutlined,
@@ -87,7 +91,6 @@ export default {
     SendOutlined,
     DashboardOutlined,
     LoadingVue,
-    DownOutlined,
   },
   methods: {
     isLogout() {
@@ -114,6 +117,7 @@ export default {
 
 .header {
   display: flex;
+  align-items: center;
   padding: 0px 20px !important;
   justify-content: right;
 }

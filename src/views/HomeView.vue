@@ -1,7 +1,7 @@
 <template>
-  <div :style="{ padding: '24px', background: '#fff', minHeight: '360px' }">
-    home
-  </div>
+  <div
+    :style="{ padding: '24px', background: '#fff', minHeight: '360px' }"
+  ></div>
 </template>
 <script>
 import api_url from "../configs/api";
