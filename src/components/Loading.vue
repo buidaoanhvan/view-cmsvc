@@ -6,7 +6,7 @@
     @touchmove.prevent
     @scroll.prevent
   >
-    <a-spin size="large" tip="Dang tải..." />
+    <a-spin size="large" tip="Đang tải..." />
   </div>
 </template>
 

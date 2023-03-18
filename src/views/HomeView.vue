@@ -18,7 +18,6 @@ export default {
       .post(api_url.user)
       .then((req) => {
         this.user = req.data.data;
-        console.log(this.user);
       })
       .catch();
   },
