@@ -6,7 +6,8 @@ import Antd from "ant-design-vue";
 import VueCookies from "vue3-cookies";
 import "ant-design-vue/dist/antd.css";
 import { initialize } from "./store/modules/general";
+import { http } from "./services/http";
 
+http(store);
 initialize(store, router);
-
 createApp(App).use(Antd).use(VueCookies).use(store).use(router).mount("#app");

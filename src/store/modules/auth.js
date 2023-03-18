@@ -40,6 +40,12 @@ export default {
       state.isLoggedIn = false;
       state.currentUser = null;
     },
+    LOADING_ON: (state) => {
+      state.loading = true;
+    },
+    LOADING_OFF: (state) => {
+      state.loading = false;
+    },
   },
   actions: {
     LOGIN: (context) => {

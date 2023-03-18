@@ -9,14 +9,18 @@
     >
       <div class="logo"></div>
       <a-menu theme="dark" mode="inline">
-        <a-menu-item key="1">
-          <dashboard-outlined />
-          <span class="nav-text">Tổng quan</span>
-        </a-menu-item>
-        <a-menu-item key="2">
-          <shop-outlined />
-          <span class="nav-text">Thương hiệu</span>
-        </a-menu-item>
+        <router-link :to="{ name: 'tongquan' }">
+          <a-menu-item key="1">
+            <dashboard-outlined />
+            <span class="nav-text">Tổng quan</span>
+          </a-menu-item>
+        </router-link>
+        <router-link :to="{ name: 'thuonghieu' }">
+          <a-menu-item key="2">
+            <shop-outlined />
+            <span class="nav-text">Thương hiệu</span>
+          </a-menu-item>
+        </router-link>
         <a-menu-item key="3">
           <bank-outlined />
           <span class="nav-text">Đối tác</span>
@@ -29,10 +33,12 @@
           <send-outlined />
           <span class="nav-text">Xuất voucher</span>
         </a-menu-item>
-        <a-menu-item key="6">
-          <team-outlined />
-          <span class="nav-text">Người dùng</span>
-        </a-menu-item>
+        <router-link :to="{ name: 'nguoidung' }">
+          <a-menu-item key="6">
+            <team-outlined />
+            <span class="nav-text">Người dùng</span>
+          </a-menu-item>
+        </router-link>
       </a-menu>
     </a-layout-sider>
     <a-layout>
@@ -51,18 +57,14 @@
               <a-menu-item key="1" disabled>{{
                 this.$store.getters.CURRENT_USER?.fullname
               }}</a-menu-item>
-              <a-menu-item key="2">
-                <a-typography-text type="danger" @click="isLogout"
-                  >Đăng xuất</a-typography-text
-                >
+              <a-menu-item key="2" @click="isLogout">
+                <a-typography-text type="danger">Đăng xuất</a-typography-text>
               </a-menu-item>
             </a-menu>
           </template>
         </a-dropdown>
       </a-layout-header>
-      <a-layout-content :style="{ margin: '24px 16px 0' }">
-        <router-view />
-      </a-layout-content>
+      <router-view />
       <a-layout-footer
         v-if="$route.name != 'login' && $route.name != 'found'"
         style="text-align: center"

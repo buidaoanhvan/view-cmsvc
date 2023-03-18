@@ -1,4 +1,5 @@
 import axios from "axios";
+import { message } from "ant-design-vue";
 
 export function initialize(store, router) {
   router.beforeEach((to, from, next) => {
@@ -17,6 +18,9 @@ export function initialize(store, router) {
       if (error.response.status === 401) {
         store.commit("LOGOUT");
         router.push("/login");
+      }
+      if (error.response.status === 403) {
+        message.warning("Bạn không có quyền truy cập");
       }
       return Promise.reject(error);
     });

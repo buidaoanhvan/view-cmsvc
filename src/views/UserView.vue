@@ -1,7 +1,9 @@
 <template>
-  <div :style="{ padding: '24px', background: '#fff', minHeight: '360px' }">
-    User
-  </div>
+  <a-layout-content :style="{ margin: '24px 16px 0' }">
+    <div :style="{ padding: '24px', background: '#fff', minHeight: '360px' }">
+      nguoi dung
+    </div>
+  </a-layout-content>
 </template>
 <script>
 import api_url from "../configs/api";
