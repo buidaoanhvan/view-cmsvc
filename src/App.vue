@@ -8,35 +8,19 @@
       style="height: 100vh"
     >
       <div class="logo"></div>
-      <a-menu theme="dark" mode="inline">
-        <router-link :to="{ name: 'tongquan' }">
-          <a-menu-item key="1">
-            <dashboard-outlined />
-            <span class="nav-text">Tổng quan</span>
-          </a-menu-item>
-        </router-link>
-        <router-link :to="{ name: 'thuonghieu' }">
-          <a-menu-item key="2">
-            <shop-outlined />
-            <span class="nav-text">Thương hiệu</span>
-          </a-menu-item>
-        </router-link>
-        <a-menu-item key="3">
-          <bank-outlined />
-          <span class="nav-text">Đối tác</span>
-        </a-menu-item>
-        <a-menu-item key="4">
-          <barcode-outlined />
-          <span class="nav-text">Voucher</span>
-        </a-menu-item>
-        <a-menu-item key="5">
-          <send-outlined />
-          <span class="nav-text">Xuất voucher</span>
-        </a-menu-item>
-        <router-link :to="{ name: 'nguoidung' }">
-          <a-menu-item key="6">
-            <team-outlined />
-            <span class="nav-text">Người dùng</span>
+      <a-menu
+        theme="dark"
+        mode="inline"
+        :selectedKeys="[`${this.$route.name}`]"
+      >
+        <router-link
+          v-for="route in menu"
+          :key="route.key"
+          :to="{ name: route.routerName }"
+        >
+          <a-menu-item :key="route.key">
+            <component v-bind:is="route.icon"></component>
+            <span class="nav-text">{{ route.title }}</span>
           </a-menu-item>
         </router-link>
       </a-menu>
@@ -93,6 +77,42 @@ export default {
     SendOutlined,
     DashboardOutlined,
     LoadingVue,
+  },
+  data() {
+    return {
+      menu: [
+        {
+          routerName: "tongquan",
+          key: "tongquan",
+          title: "Tổng quan",
+          icon: "DashboardOutlined",
+        },
+        {
+          routerName: "thuonghieu",
+          key: "thuonghieu",
+          title: "Thương hiệu",
+          icon: "ShopOutlined",
+        },
+        {
+          routerName: "doitac",
+          key: "doitac",
+          title: "Đối tác",
+          icon: "BankOutlined",
+        },
+        {
+          routerName: "voucher",
+          key: "voucher",
+          title: "Voucher",
+          icon: "BarcodeOutlined",
+        },
+        {
+          routerName: "nguoidung",
+          key: "nguoidung",
+          title: "Người dùng",
+          icon: "TeamOutlined",
+        },
+      ],
+    };
   },
   methods: {
     isLogout() {

@@ -3,6 +3,7 @@ import LoginView from "@/views/LoginView.vue";
 import HomeViewVue from "@/views/HomeView.vue";
 import UserViewVue from "../views/UserView.vue";
 import BrandView from "@/views/BrandView.vue";
+import SupplierView from "@/views/SupplierView.vue";
 import PathNotFound from "../views/PathNotFound.vue";
 const routes = [
   {
@@ -27,6 +28,18 @@ const routes = [
     path: "/thuonghieu",
     name: "thuonghieu",
     component: BrandView,
+    meta: { requiresAuth: true },
+  },
+  {
+    path: "/doitac",
+    name: "doitac",
+    component: SupplierView,
+    meta: { requiresAuth: true },
+  },
+  {
+    path: "/voucher",
+    name: "voucher",
+    component: SupplierView,
     meta: { requiresAuth: true },
   },
   {

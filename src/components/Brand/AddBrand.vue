@@ -1,36 +1,34 @@
 <template>
-  <div>
-    <a-button type="primary" @click="showModal" style="margin-left: 10px"
-      >+</a-button
+  <a-button type="primary" @click="showModal" style="margin-left: 10px"
+    >+</a-button
+  >
+  <a-modal
+    v-model:visible="visible"
+    width="500px"
+    title="Thêm thương hiệu"
+    cancelText="Hủy"
+    okText="Thêm"
+    :maskClosable="false"
+    @ok="handleOk"
+  >
+    <a-input
+      v-model:value="name"
+      placeholder="Tên thương hiệu"
+      style="margin-bottom: 15px"
+    />
+    <a-upload
+      v-model:file-list="fileList"
+      list-type="picture"
+      :max-count="1"
+      action="http://localhost:3000/upload"
+      :headers="headers"
     >
-    <a-modal
-      v-model:visible="visible"
-      width="500px"
-      title="Thêm thương hiệu"
-      cancelText="Hủy"
-      okText="Thêm"
-      :maskClosable="false"
-      @ok="handleOk"
-    >
-      <a-input
-        v-model:value="name"
-        placeholder="Tên thương hiệu"
-        style="margin-bottom: 15px"
-      />
-      <a-upload
-        v-model:file-list="fileList"
-        list-type="picture"
-        :max-count="1"
-        action="http://localhost:3000/upload"
-        :headers="headers"
-      >
-        <a-button>
-          <upload-outlined></upload-outlined>
-          Tải lên hình ảnh thương hiệu
-        </a-button>
-      </a-upload>
-    </a-modal>
-  </div>
+      <a-button>
+        <upload-outlined></upload-outlined>
+        Tải ảnh thương hiệu
+      </a-button>
+    </a-upload>
+  </a-modal>
 </template>
 <script>
 import { UploadOutlined } from "@ant-design/icons-vue";
