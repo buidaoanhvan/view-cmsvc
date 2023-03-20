@@ -72,7 +72,7 @@ export default {
             this.name = "";
             this.imgUrl = "";
             this.fileList = [];
-            this.$emit("ok");
+            this.$store.dispatch("brand/getAllBrand");
           } else {
             this.$message.error("Vui lòng thử lại sau");
             this.visible = false;

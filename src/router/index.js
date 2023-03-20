@@ -4,6 +4,7 @@ import HomeViewVue from "@/views/HomeView.vue";
 import UserViewVue from "../views/UserView.vue";
 import BrandView from "@/views/BrandView.vue";
 import SupplierView from "@/views/SupplierView.vue";
+import VoucherView from "../views/VoucherView.vue";
 import PathNotFound from "../views/PathNotFound.vue";
 const routes = [
   {
@@ -39,7 +40,7 @@ const routes = [
   {
     path: "/voucher",
     name: "voucher",
-    component: SupplierView,
+    component: VoucherView,
     meta: { requiresAuth: true },
   },
   {

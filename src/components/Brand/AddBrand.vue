@@ -35,6 +35,7 @@ import { UploadOutlined } from "@ant-design/icons-vue";
 import axios from "axios";
 import api_link from "@/configs/api";
 export default {
+  emits: ["addOk"],
   components: {
     UploadOutlined,
   },
@@ -72,7 +73,7 @@ export default {
               this.name = "";
               this.imgUrl = "";
               this.fileList = [];
-              this.$emit("ok");
+              this.$store.dispatch("brand/getAllBrand");
             } else {
               this.$message.error("Vui lòng thử lại sau");
               this.visible = false;

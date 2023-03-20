@@ -10,7 +10,7 @@
     >
       <a-row>
         <a-typography-title :level="3">Thương hiệu</a-typography-title>
-        <AddBrand @ok="getBrandList"></AddBrand>
+        <AddBrand></AddBrand>
       </a-row>
       <div
         :style="{
@@ -40,7 +40,7 @@
                 </template>
                 <a-card-meta :title="item.name"> </a-card-meta>
                 <template #actions>
-                  <EditBrand :brand="item" @ok="getBrandList"></EditBrand>
+                  <EditBrand :brand="item"></EditBrand>
                   <a key="list-loadmore-more" @click="deleteBrand(item.id)"
                     >Xóa</a
                   >
@@ -54,37 +54,30 @@
   </a-layout-content>
 </template>
 <script>
-import api_url from "../configs/api";
 import axios from "axios";
 import AddBrand from "../components/Brand/AddBrand.vue";
 import EditBrand from "../components/Brand/EditBrand.vue";
 import api_link from "../configs/api";
+import { computed } from "vue";
+
 export default {
   components: { AddBrand, EditBrand },
   data() {
     return {
-      data: [],
+      data: computed(() => this.$store.getters["brand/getBrands"]),
     };
   },
   async created() {
-    this.getBrandList();
+    this.$store.dispatch("brand/getAllBrand");
   },
 
   methods: {
-    getBrandList() {
-      axios.get(api_url.brand).then((req) => {
-        const { data, statusCode } = req.data;
-        if (statusCode == 200) {
-          this.data = data;
-        }
-      });
-    },
     deleteBrand(id) {
       axios.delete(api_link.brand + "/" + id).then((req) => {
         const { statusCode } = req.data;
         if (statusCode == 200) {
           this.$message.success("Xóa thương hiệu thành công");
-          this.getBrandList();
+          this.$store.dispatch("brand/getAllBrand");
         } else {
           this.$message.error("Vui lòng thử lại sau");
         }
