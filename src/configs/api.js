@@ -5,6 +5,7 @@ const api_link = {
   user: url + "/auth/user",
   brand: url + "/brand",
   supplier: url + "/supplier",
+  voucher: url + "/voucher",
 };
 
 export default api_link;

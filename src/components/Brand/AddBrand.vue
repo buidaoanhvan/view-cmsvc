@@ -32,12 +32,17 @@
 </template>
 <script>
 import { UploadOutlined } from "@ant-design/icons-vue";
-import axios from "axios";
-import api_link from "@/configs/api";
+import { authStore } from "../../store/index";
+import { brandStore } from "../../store/index";
+
 export default {
-  emits: ["addOk"],
   components: {
     UploadOutlined,
+  },
+  setup() {
+    const auth = authStore();
+    const brand = brandStore();
+    return { auth, brand };
   },
   data() {
     return {
@@ -46,11 +51,10 @@ export default {
       fileList: [],
       imgUrl: "",
       headers: {
-        authorization: `Bearer ${this.$store.getters.CURRENT_USER.token}`,
+        authorization: `Bearer ${this.auth.user.token}`,
       },
     };
   },
-
   methods: {
     showModal() {
       this.visible = true;
@@ -59,32 +63,12 @@ export default {
       if (this.name && this.fileList.length > 0) {
         this.fileList.forEach((element) => {
           this.imgUrl = element.response.url;
+          this.brand.addBrand(this.name, this.imgUrl);
+          this.name = "";
+          this.fileList = [];
+          this.imgUrl = "";
+          this.visible = false;
         });
-        axios
-          .post(api_link.brand, {
-            name: this.name,
-            logo: this.imgUrl,
-          })
-          .then((response) => {
-            const { statusCode } = response.data;
-            if (statusCode === 200) {
-              this.$message.success("Thêm thương hiệu thành công");
-              this.visible = false;
-              this.name = "";
-              this.imgUrl = "";
-              this.fileList = [];
-              this.$store.dispatch("brand/getAllBrand");
-            } else {
-              this.$message.error("Vui lòng thử lại sau");
-              this.visible = false;
-              this.name = "";
-              this.imgUrl = "";
-              this.fileList = [];
-            }
-          })
-          .catch(() => {
-            // this.$message.error("Thêm thương hiệu thất bại");
-          });
       } else {
         this.$message.error("Vui lòng nhập tên thương hiệu và hình ảnh");
       }

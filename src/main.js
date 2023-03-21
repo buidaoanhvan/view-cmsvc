@@ -1,13 +1,20 @@
 import { createApp } from "vue";
 import App from "./App.vue";
 import router from "./router";
-import store from "./store";
 import Antd from "ant-design-vue";
-import VueCookies from "vue3-cookies";
 import "ant-design-vue/dist/antd.css";
-import { initialize } from "./store/modules/general";
+import { auth } from "./services/auth";
 import { http } from "./services/http";
+import { createPinia } from "pinia";
 
-http(store);
-initialize(store, router);
-createApp(App).use(Antd).use(VueCookies).use(store).use(router).mount("#app");
+const app = createApp(App);
+const pinia = createPinia();
+
+app.use(router);
+app.use(pinia);
+app.use(Antd);
+
+auth(router);
+http();
+
+app.mount("#app");

@@ -1,18 +1,20 @@
 import axios from "axios";
+import { loadingStore } from "../store/index";
 
-export function http(store) {
+export function http() {
+  const loading = loadingStore();
   axios.interceptors.request.use((config) => {
-    store.commit("LOADING_ON");
+    loading.loadingTrue();
     return config;
   });
 
   axios.interceptors.response.use((response) => {
-    store.commit("LOADING_OFF");
+    loading.loadingFalse();
     return response;
   });
 
   axios.interceptors.response.use(null, (error) => {
-    store.commit("LOADING_OFF");
+    loading.loadingFalse();
     return Promise.reject(error);
   });
 }

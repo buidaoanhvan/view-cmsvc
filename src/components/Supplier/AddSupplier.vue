@@ -32,9 +32,14 @@
   </a-modal>
 </template>
 <script>
-import axios from "axios";
-import api_link from "@/configs/api";
+import { supplierStore } from "@/store";
+
 export default {
+  setup() {
+    const supplier = supplierStore();
+    return { supplier };
+  },
+
   data() {
     return {
       visible: false,
@@ -50,32 +55,11 @@ export default {
     },
     handleOk() {
       if (this.name && this.email && this.phone) {
-        axios
-          .post(api_link.supplier, {
-            name: this.name,
-            email: this.email,
-            phone: this.phone,
-          })
-          .then((response) => {
-            const { statusCode } = response.data;
-            if (statusCode === 200) {
-              this.$message.success("Thêm đối tác thành công");
-              this.visible = false;
-              this.name = "";
-              this.email = "";
-              this.phone = "";
-              this.$emit("ok");
-            } else {
-              this.$message.error("Vui lòng thử lại sau");
-              this.visible = false;
-              this.name = "";
-              this.email = "";
-              this.phone = "";
-            }
-          })
-          .catch(() => {
-            this.$message.error("Vui lòng kiểm tra lại thông tin nhập");
-          });
+        this.supplier.addSupplier(this.name, this.email, this.phone);
+        this.name = "";
+        this.email = "";
+        this.phone = "";
+        this.visible = false;
       } else {
         this.$message.error("Vui lòng nhập đủ thông tin");
       }

@@ -1,5 +1,5 @@
 <template>
-  <a-layout-content :style="{ margin: '24px 16px 0' }">
+  <a-layout-content class="content">
     <div
       :style="{
         padding: '24px',
@@ -21,7 +21,7 @@
       >
         <a-list
           :grid="{ gutter: 20 }"
-          :data-source="data"
+          :data-source="listBrand"
           style="overflow-x: hidden"
         >
           <template #renderItem="{ item }">
@@ -54,34 +54,27 @@
   </a-layout-content>
 </template>
 <script>
-import axios from "axios";
 import AddBrand from "../components/Brand/AddBrand.vue";
 import EditBrand from "../components/Brand/EditBrand.vue";
-import api_link from "../configs/api";
-import { computed } from "vue";
+import { storeToRefs } from "pinia";
+import { brandStore } from "../store/index";
 
 export default {
   components: { AddBrand, EditBrand },
-  data() {
-    return {
-      data: computed(() => this.$store.getters["brand/getBrands"]),
-    };
+
+  setup() {
+    const brand = brandStore();
+    const { listBrand } = storeToRefs(brand);
+    return { brand, listBrand };
   },
-  async created() {
-    this.$store.dispatch("brand/getAllBrand");
+
+  created() {
+    this.brand.getBrandAll();
   },
 
   methods: {
     deleteBrand(id) {
-      axios.delete(api_link.brand + "/" + id).then((req) => {
-        const { statusCode } = req.data;
-        if (statusCode == 200) {
-          this.$message.success("Xóa thương hiệu thành công");
-          this.$store.dispatch("brand/getAllBrand");
-        } else {
-          this.$message.error("Vui lòng thử lại sau");
-        }
-      });
+      this.brand.deleteBrand(id);
     },
   },
 };

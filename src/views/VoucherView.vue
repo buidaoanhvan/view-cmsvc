@@ -1,5 +1,5 @@
 <template>
-  <a-layout-content :style="{ margin: '24px 16px 0' }">
+  <a-layout-content class="content">
     <div
       :style="{
         padding: '24px',
@@ -10,7 +10,7 @@
     >
       <a-row>
         <a-typography-title :level="3">Voucher</a-typography-title>
-        <AddVoucher @ok="getSupplierList"></AddVoucher>
+        <AddVoucher></AddVoucher>
       </a-row>
       <div
         :style="{
@@ -19,19 +19,33 @@
           overflow: 'auto',
         }"
       >
-        <a-table :columns="columns" :data-source="data" :pagination="false">
+        <a-table
+          :columns="columns"
+          :data-source="listVoucher"
+          :pagination="false"
+        >
           <template #bodyCell="{ column, record }">
-            <template v-if="column.key === 'name'">
-              <a>
-                {{ record.name }}
+            <template v-if="column.key === 'discount_value'">
+              <a v-if="record.discount_type == 1">
+                {{ record.discount_value }}%
               </a>
+              <a v-if="record.discount_type == 2"
+                >{{ record.discount_value }} vnđ</a
+              >
+              <a v-if="record.discount_type == 3"> Loại khác </a>
+            </template>
+            <template v-if="column.key === 'max_discount'">
+              <a> {{ record.max_discount }} vnđ</a>
+            </template>
+            <template v-if="column.key === 'start_time'">
+              {{ dateTime(record.start_time) }}
+            </template>
+            <template v-if="column.key === 'end_time'">
+              {{ dateTime(record.end_time) }}
             </template>
             <template v-else-if="column.key === 'action'">
               <span>
-                <EditVoucher
-                  :supplier="record"
-                  @ok="getSupplierList"
-                ></EditVoucher>
+                <EditVoucher :supplier="record"></EditVoucher>
                 <a-divider type="vertical" />
                 <a @click="deleteSupplier(record.id)">Xóa</a>
               </span>
@@ -43,31 +57,51 @@
   </a-layout-content>
 </template>
 <script>
-import api_url from "../configs/api";
-import axios from "axios";
 import AddVoucher from "../components/Voucher/AddVoucher.vue";
 import EditVoucher from "../components/Voucher/EditVoucher.vue";
+import { storeToRefs } from "pinia";
+import { voucherStore } from "@/store";
+import moment from "moment";
 
-import api_link from "../configs/api";
 export default {
   components: { AddVoucher, EditVoucher },
+  setup() {
+    const voucherS = voucherStore();
+    const { listVoucher } = storeToRefs(voucherS);
+    return { voucherS, listVoucher };
+  },
   data() {
     return {
       columns: [
         {
-          title: "Đối tác",
-          dataIndex: "name",
-          key: "name",
+          title: "Tên voucher",
+          dataIndex: "title",
+          key: "title",
         },
         {
-          title: "Email",
-          dataIndex: "email",
-          key: "email",
+          title: "Mô tả",
+          dataIndex: "description",
+          key: "description",
         },
         {
-          title: "Liên hệ",
-          dataIndex: "phone",
-          key: "phone",
+          title: "Giá trị giảm",
+          dataIndex: "discount_value",
+          key: "discount_value",
+        },
+        {
+          title: "Giảm tối đa",
+          dataIndex: "max_discount",
+          key: "max_discount",
+        },
+        {
+          title: "Ngày bắt đầu",
+          dataIndex: "start_time",
+          key: "start_time",
+        },
+        {
+          title: "Ngày kết thúc",
+          dataIndex: "end_time",
+          key: "end_time",
         },
         {
           title: "Hành động",
@@ -77,29 +111,16 @@ export default {
       data: [],
     };
   },
-  async created() {
-    this.getSupplierList();
+  created() {
+    this.voucherS.getVoucherAll();
   },
 
   methods: {
-    getSupplierList() {
-      axios.get(api_url.supplier).then((req) => {
-        const { data, statusCode } = req.data;
-        if (statusCode == 200) {
-          this.data = data;
-        }
-      });
+    dateTime(value) {
+      return moment.utc(value).local().format("DD/MM/YYYY");
     },
     deleteSupplier(id) {
-      axios.delete(api_link.supplier + "/" + id).then((req) => {
-        const { statusCode } = req.data;
-        if (statusCode == 200) {
-          this.$message.success("Xóa đối tác thành công");
-          this.getSupplierList();
-        } else {
-          this.$message.error("Vui lòng thử lại sau");
-        }
-      });
+      this.voucherS.deleteVoucher(id);
     },
   },
 };
@@ -124,5 +145,8 @@ export default {
 
 .site-layout-background {
   background: #fff;
+}
+.content {
+  margin: 24px 16px 0;
 }
 </style>

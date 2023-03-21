@@ -11,71 +11,145 @@
     :maskClosable="false"
     @ok="handleOk"
   >
-    <a-steps :current="current">
-      <a-step v-for="item in steps" :key="item.title" :title="item.title" />
-    </a-steps>
-    <div class="steps-content">
-      {{ steps[current].content }}
-    </div>
-    <div class="steps-action">
-      <a-button v-if="current < steps.length - 1" type="primary" @click="next"
-        >Next</a-button
-      >
-      <a-button
-        v-if="current == steps.length - 1"
-        type="primary"
-        @click="message.success('Processing complete!')"
-      >
-        Done
-      </a-button>
-      <a-button v-if="current > 0" style="margin-left: 8px" @click="prev"
-        >Previous</a-button
-      >
-    </div>
-
-    <a-typography-text type="secondary">Tên đối tác:</a-typography-text>
-    <a-input
-      v-model:value="name"
-      placeholder="Tên đối tác"
-      style="margin-bottom: 15px"
-    />
-    <a-typography-text type="secondary">Địa chỉ email:</a-typography-text>
-    <a-input
-      v-model:value="email"
-      placeholder="Địa chỉ email"
-      style="margin-bottom: 15px"
-    />
-    <a-typography-text type="secondary">Liên hệ:</a-typography-text>
-    <a-input
-      v-model:value="phone"
-      placeholder="Liên hệ"
-      style="margin-bottom: 15px"
-    />
+    <a-row>
+      <a-col :span="12" class="box-add-vc">
+        <!-- Tên voucher: -->
+        <a-typography-text type="secondary">Tên voucher:</a-typography-text>
+        <a-input
+          v-model:value="title"
+          placeholder="Tên voucher"
+          style="margin-bottom: 15px"
+        />
+        <!-- Mô tả: -->
+        <a-typography-text type="secondary">Mô tả:</a-typography-text>
+        <a-input
+          v-model:value="description"
+          placeholder="Mô tả"
+          style="margin-bottom: 15px"
+        />
+        <!-- Hình ảnh: -->
+        <a-typography-text type="secondary">Hình ảnh:</a-typography-text>
+        <a-input
+          v-model:value="image"
+          placeholder="Hình ảnh"
+          style="margin-bottom: 15px"
+        />
+        <!-- Thương hiệu cung cấp: -->
+        <div class="select-box">
+          <a-typography-text type="secondary"
+            >Thương hiệu cung cấp:</a-typography-text
+          >
+          <a-select
+            v-model:value="brandId"
+            show-search
+            placeholder="Chọn thương hiệu"
+            style="width: 100%; margin-bottom: 15px"
+            :options="listBrand"
+            :filter-option="filterBrand"
+            :fieldNames="{ label: 'name', value: 'id' }"
+            @change="handleChangeBrand"
+          ></a-select>
+        </div>
+        <!-- Ngày bắt đầu: -->
+        <a-typography-text type="secondary">Ngày bắt đầu:</a-typography-text>
+        <a-date-picker
+          placeholder="Ngày bắt đầu"
+          style="width: 100%; margin-bottom: 15px"
+          @change="onChangeStart"
+        />
+      </a-col>
+      <a-col :span="12" class="box-add-vc">
+        <!-- Giá trị voucher: -->
+        <a-typography-text type="secondary">Giá trị voucher:</a-typography-text>
+        <a-input
+          v-model:value="discount_value"
+          placeholder="Giá trị giảm"
+          style="margin-bottom: 15px"
+        />
+        <!-- Loại voucher giảm: -->
+        <div class="select-box">
+          <a-typography-text type="secondary"
+            >Loại voucher giảm:</a-typography-text
+          >
+          <a-select
+            v-model:value="discount_type"
+            placeholder="Chọn loại giảm giá"
+            style="width: 100%; margin-bottom: 15px"
+            :options="options_discount_type"
+            @change="handleChangeDiscountType"
+          ></a-select>
+        </div>
+        <!-- Giảm tối đa: -->
+        <a-typography-text type="secondary">Giảm tối đa:</a-typography-text>
+        <a-input
+          v-model:value="max_discount"
+          placeholder="Giảm tối đa"
+          style="margin-bottom: 15px"
+        />
+        <!-- Đối tác: -->
+        <div class="select-box">
+          <a-typography-text type="secondary">Đối tác:</a-typography-text>
+          <a-select
+            v-model:value="supplierId"
+            show-search
+            placeholder="Chọn đối tác"
+            style="width: 100%; margin-bottom: 15px"
+            :options="listSupplier"
+            :filter-option="filterSupplier"
+            :fieldNames="{ label: 'name', value: 'id' }"
+            @change="handleChangeSupplier"
+          ></a-select>
+        </div>
+        <!-- Ngày kết thúc: -->
+        <a-typography-text type="secondary">Ngày kết thúc:</a-typography-text>
+        <a-date-picker
+          placeholder="Ngày kết thúc"
+          style="width: 100%; margin-bottom: 15px"
+          @change="onChangeEnd"
+        />
+      </a-col>
+    </a-row>
   </a-modal>
 </template>
 <script>
-import axios from "axios";
-import api_link from "@/configs/api";
+import { brandStore, supplierStore, voucherStore } from "@/store";
+import { storeToRefs } from "pinia";
+
 export default {
+  setup() {
+    const brandS = brandStore();
+    const supplierS = supplierStore();
+    const voucherS = voucherStore();
+    const { listBrand } = storeToRefs(brandS);
+    const { listSupplier } = storeToRefs(supplierS);
+    return { brandS, supplierS, listBrand, listSupplier, voucherS };
+  },
+
   data() {
     return {
       visible: false,
-      name: "",
-      email: "",
-      phone: "",
-      current: 0,
-      steps: [
+      supplierId: "",
+      brandId: "",
+      title: "",
+      description: "",
+      discount_value: "",
+      discount_type: "",
+      max_discount: "",
+      image: "",
+      start_time: "",
+      end_time: "",
+      options_discount_type: [
         {
-          title: "Thương hiệu",
-          content: "First-content",
+          value: 1,
+          label: "Giảm theo %",
         },
         {
-          title: "Thông tin voucher",
-          content: "Second-content",
+          value: 2,
+          label: "Giảm theo giá tiền",
         },
         {
-          title: "Thời hạn voucher",
-          content: "Second-content",
+          value: 3,
+          label: "Giảm theo cách thức khác",
         },
       ],
     };
@@ -84,45 +158,71 @@ export default {
   methods: {
     showModal() {
       this.visible = true;
+      this.brandS.getBrandAll();
+      this.supplierS.getSupplierAll();
     },
+
+    filterSupplier(input, option) {
+      return option.name.toLowerCase().indexOf(input.toLowerCase()) >= 0;
+    },
+
+    filterBrand(input, option) {
+      return option.name.toLowerCase().indexOf(input.toLowerCase()) >= 0;
+    },
+
+    handleChangeSupplier(value) {
+      this.supplierId = value;
+    },
+
+    handleChangeDiscountType(value) {
+      this.discount_type = value;
+    },
+
+    handleChangeBrand(value) {
+      this.brandId = value;
+    },
+
+    onChangeStart(date) {
+      this.start_time = date;
+    },
+
+    onChangeEnd(date) {
+      this.end_time = date;
+    },
+
     handleOk() {
-      if (this.name && this.email && this.phone) {
-        axios
-          .post(api_link.supplier, {
-            name: this.name,
-            email: this.email,
-            phone: this.phone,
-          })
-          .then((response) => {
-            const { statusCode } = response.data;
-            if (statusCode === 200) {
-              this.$message.success("Thêm đối tác thành công");
-              this.visible = false;
-              this.name = "";
-              this.email = "";
-              this.phone = "";
-              this.$emit("ok");
-            } else {
-              this.$message.error("Vui lòng thử lại sau");
-              this.visible = false;
-              this.name = "";
-              this.email = "";
-              this.phone = "";
-            }
-          })
-          .catch(() => {
-            this.$message.error("Vui lòng kiểm tra lại thông tin nhập");
-          });
+      // <!-- id	brandId	supplierId	title	description	image	status	discount_value	discount_type	max_discount	start_time	end_time -->
+      if (
+        this.title &&
+        this.description &&
+        this.discount_value &&
+        this.discount_type &&
+        this.max_discount &&
+        this.start_time &&
+        this.end_time
+      ) {
+        this.voucherS.addVoucher(
+          this.brandId,
+          this.supplierId,
+          this.title,
+          this.description,
+          this.image,
+          parseInt(this.discount_value),
+          parseInt(this.discount_type),
+          parseInt(this.max_discount),
+          this.start_time,
+          this.end_time
+        );
       } else {
-        this.$message.error("Vui lòng nhập đủ thông tin");
+        this.$message.warning("Vui lòng điền đủ thông tin");
       }
-    },
-    next() {
-      this.current++;
-    },
-    prev() {
-      this.current--;
     },
   },
 };
 </script>
+
+<style scoped>
+.box-add-vc {
+  padding: 0px 10px;
+}
+</style>

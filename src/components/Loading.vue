@@ -1,6 +1,6 @@
 <template>
   <div
-    v-if="this.$store.getters.IS_LOADING"
+    v-if="loading"
     class="example"
     @wheel.prevent
     @touchmove.prevent
@@ -11,8 +11,14 @@
 </template>
 
 <script>
+import { mapState } from "pinia";
+import { loadingStore } from "../store/index";
+
 export default {
   name: "LoadingVue",
+  computed: {
+    ...mapState(loadingStore, ["loading"]),
+  },
 };
 </script>
 

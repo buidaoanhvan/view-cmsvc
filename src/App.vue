@@ -32,15 +32,11 @@
         class="header"
       >
         <a-dropdown>
-          <a-avatar>{{
-            this.$store.getters.CURRENT_USER?.fullname.charAt(0)
-          }}</a-avatar>
+          <a-avatar>{{ user?.fullname?.charAt(0) }}</a-avatar>
 
           <template #overlay>
             <a-menu>
-              <a-menu-item key="1" disabled>{{
-                this.$store.getters.CURRENT_USER?.fullname
-              }}</a-menu-item>
+              <a-menu-item key="1" disabled>{{ user?.fullname }}</a-menu-item>
               <a-menu-item key="2" @click="isLogout">
                 <a-typography-text type="danger">Đăng xuất</a-typography-text>
               </a-menu-item>
@@ -68,7 +64,15 @@ import {
   DashboardOutlined,
 } from "@ant-design/icons-vue";
 import LoadingVue from "./components/Loading.vue";
+import { storeToRefs } from "pinia";
+import { authStore } from "./store/index";
+
 export default {
+  setup() {
+    const auth = authStore();
+    const { user } = storeToRefs(auth);
+    return { auth, user };
+  },
   components: {
     ShopOutlined,
     BankOutlined,
@@ -116,8 +120,7 @@ export default {
   },
   methods: {
     isLogout() {
-      this.$store.commit("LOGOUT");
-      this.$router.push({ path: "/login" });
+      this.auth.logout();
     },
   },
 };

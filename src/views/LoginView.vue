@@ -34,10 +34,13 @@
   </a-layout>
 </template>
 <script>
-import axios from "axios";
-import api_url from "../configs/api";
 import { UserOutlined, KeyOutlined } from "@ant-design/icons-vue";
+import { authStore } from "../store/index";
 export default {
+  setup() {
+    const auth = authStore();
+    return { auth };
+  },
   components: {
     UserOutlined,
     KeyOutlined,
@@ -49,46 +52,8 @@ export default {
     };
   },
   methods: {
-    onSubmit() {
-      this.$store.commit("LOGIN");
-      axios
-        .post(api_url.login, {
-          email: this.email,
-          password: this.password,
-        })
-        .then((res) => {
-          const { code, message } = res.data;
-          if (code == 200) {
-            this.$notification["success"]({
-              message: "Chú ý",
-              description: message,
-            });
-            this.$router.push({ path: "/" });
-            this.$store.commit("LOGIN_SUCCESS", res.data);
-          } else {
-            this.$store.commit("LOGIN_FAILED");
-            this.$notification["warning"]({
-              message: "Chú ý",
-              description: message,
-            });
-          }
-        })
-        .catch((err) => {
-          this.$store.commit("LOGIN_FAILED");
-          this.$notification["error"]({
-            message: "Chú ý",
-            description: err.message,
-          });
-          const { statusCode, message } = err.response.data;
-          if (statusCode == 400) {
-            message.forEach((message) => {
-              this.$notification["error"]({
-                message: "Chú ý",
-                description: message,
-              });
-            });
-          }
-        });
+    async onSubmit() {
+      await this.auth.login(this.email, this.password);
     },
   },
 };

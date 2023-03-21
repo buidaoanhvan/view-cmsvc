@@ -30,9 +30,13 @@
   </a-modal>
 </template>
 <script>
-import axios from "axios";
-import api_link from "@/configs/api";
+import { supplierStore } from "@/store";
+
 export default {
+  setup() {
+    const supplierS = supplierStore();
+    return { supplierS };
+  },
   props: ["supplier"],
   data() {
     return {
@@ -51,26 +55,13 @@ export default {
       this.phone = this.supplier.phone;
     },
     handleOk() {
-      axios
-        .patch(api_link.supplier + "/" + this.supplier.id, {
-          name: this.name,
-          email: this.email,
-          phone: this.phone,
-        })
-        .then((response) => {
-          const { statusCode } = response.data;
-          if (statusCode === 200) {
-            this.$message.success("Cập nhật thương hiệu thành công");
-            this.visible = false;
-            this.$emit("ok");
-          } else {
-            this.$message.error("Vui lòng thử lại sau");
-            this.visible = false;
-          }
-        })
-        .catch(() => {
-          this.$message.error("Cập nhật đối tác thất bại");
-        });
+      this.supplierS.updateSupplier(
+        this.supplier.id,
+        this.name,
+        this.email,
+        this.phone
+      );
+      this.visible = false;
     },
   },
 };

@@ -1,5 +1,5 @@
 <template>
-  <a-layout-content :style="{ margin: '24px 16px 0' }">
+  <a-layout-content class="content">
     <div
       :style="{
         padding: '24px',
@@ -10,7 +10,7 @@
     >
       <a-row>
         <a-typography-title :level="3">Đối tác</a-typography-title>
-        <AddSupplier @ok="getSupplierList"></AddSupplier>
+        <AddSupplier></AddSupplier>
       </a-row>
       <div
         :style="{
@@ -19,7 +19,11 @@
           overflow: 'auto',
         }"
       >
-        <a-table :columns="columns" :data-source="data" :pagination="false">
+        <a-table
+          :columns="columns"
+          :data-source="listSupplier"
+          :pagination="false"
+        >
           <template #bodyCell="{ column, record }">
             <template v-if="column.key === 'name'">
               <a>
@@ -28,10 +32,7 @@
             </template>
             <template v-else-if="column.key === 'action'">
               <span>
-                <EditSupplier
-                  :supplier="record"
-                  @ok="getSupplierList"
-                ></EditSupplier>
+                <EditSupplier :supplier="record"></EditSupplier>
                 <a-divider type="vertical" />
                 <a @click="deleteSupplier(record.id)">Xóa</a>
               </span>
@@ -43,14 +44,18 @@
   </a-layout-content>
 </template>
 <script>
-import api_url from "../configs/api";
-import axios from "axios";
 import AddSupplier from "../components/Supplier/AddSupplier.vue";
 import EditSupplier from "../components/Supplier/EditSupplier.vue";
+import { storeToRefs } from "pinia";
+import { supplierStore } from "@/store";
 
-import api_link from "../configs/api";
 export default {
   components: { AddSupplier, EditSupplier },
+  setup() {
+    const supplier = supplierStore();
+    const { listSupplier } = storeToRefs(supplier);
+    return { supplier, listSupplier };
+  },
   data() {
     return {
       columns: [
@@ -74,32 +79,15 @@ export default {
           key: "action",
         },
       ],
-      data: [],
     };
   },
-  async created() {
-    this.getSupplierList();
+  created() {
+    this.supplier.getSupplierAll();
   },
 
   methods: {
-    getSupplierList() {
-      axios.get(api_url.supplier).then((req) => {
-        const { data, statusCode } = req.data;
-        if (statusCode == 200) {
-          this.data = data;
-        }
-      });
-    },
     deleteSupplier(id) {
-      axios.delete(api_link.supplier + "/" + id).then((req) => {
-        const { statusCode } = req.data;
-        if (statusCode == 200) {
-          this.$message.success("Xóa đối tác thành công");
-          this.getSupplierList();
-        } else {
-          this.$message.error("Vui lòng thử lại sau");
-        }
-      });
+      this.supplier.deleteSupplier(id);
     },
   },
 };

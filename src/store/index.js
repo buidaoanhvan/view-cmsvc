@@ -1,9 +1,5 @@
-import { createStore, createLogger } from "vuex";
-import Auth from "./modules/auth";
-import brand from "./modules/brand";
-
-export default createStore({
-  modules: { Auth, brand },
-  strict: "debug",
-  plugins: [createLogger()],
-});
+export * from "./modules/ auth.store";
+export * from "./modules/ loading.store";
+export * from "./modules/ brand.store";
+export * from "./modules/ supplier.store";
+export * from "./modules/ voucher.store";
