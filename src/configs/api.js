@@ -6,6 +6,7 @@ const api_link = {
   brand: url + "/brand",
   supplier: url + "/supplier",
   voucher: url + "/voucher",
+  codex: url + "/codex",
 };
 
 export default api_link;

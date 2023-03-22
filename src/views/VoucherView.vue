@@ -48,6 +48,8 @@
                 <EditVoucher :voucher="record"></EditVoucher>
                 <a-divider type="vertical" />
                 <a @click="deleteSupplier(record.id)">Xóa</a>
+                <a-divider type="vertical" />
+                <AddCodeVoucher :voucher="record"></AddCodeVoucher>
               </span>
             </template>
           </template>
@@ -59,11 +61,12 @@
 <script>
 import AddVoucher from "../components/Voucher/AddVoucher.vue";
 import EditVoucher from "../components/Voucher/EditVoucher.vue";
+import AddCodeVoucher from "@/components/Voucher/AddCodeVoucher.vue";
 import { storeToRefs } from "pinia";
 import { voucherStore } from "@/store";
 
 export default {
-  components: { AddVoucher, EditVoucher },
+  components: { AddVoucher, EditVoucher, AddCodeVoucher },
   setup() {
     const voucherS = voucherStore();
     const { listVoucher } = storeToRefs(voucherS);
