@@ -6,6 +6,7 @@ import "ant-design-vue/dist/antd.css";
 import { auth } from "./services/auth";
 import { http } from "./services/http";
 import { createPinia } from "pinia";
+import dayjs from "dayjs";
 
 const app = createApp(App);
 const pinia = createPinia();
@@ -13,6 +14,10 @@ const pinia = createPinia();
 app.use(router);
 app.use(pinia);
 app.use(Antd);
+
+const utc = require("dayjs/plugin/utc");
+dayjs.extend(utc);
+app.config.globalProperties.$dayjs = dayjs;
 
 auth(router);
 http();

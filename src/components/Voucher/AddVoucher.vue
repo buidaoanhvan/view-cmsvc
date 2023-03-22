@@ -53,6 +53,8 @@
         <!-- Ngày bắt đầu: -->
         <a-typography-text type="secondary">Ngày bắt đầu:</a-typography-text>
         <a-date-picker
+          show-time
+          v-model:value="start_time"
           placeholder="Ngày bắt đầu"
           style="width: 100%; margin-bottom: 15px"
           @change="onChangeStart"
@@ -103,6 +105,8 @@
         <!-- Ngày kết thúc: -->
         <a-typography-text type="secondary">Ngày kết thúc:</a-typography-text>
         <a-date-picker
+          show-time
+          v-model:value="end_time"
           placeholder="Ngày kết thúc"
           style="width: 100%; margin-bottom: 15px"
           @change="onChangeEnd"
@@ -213,6 +217,17 @@ export default {
           this.start_time,
           this.end_time
         );
+        this.brandId = "";
+        this.supplierId = "";
+        this.title = "";
+        this.description = "";
+        this.image = "";
+        this.discount_value = "";
+        this.discount_type = "";
+        this.max_discount = "";
+        this.start_time = "";
+        this.end_time = "";
+        this.visible = false;
       } else {
         this.$message.warning("Vui lòng điền đủ thông tin");
       }

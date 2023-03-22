@@ -30,12 +30,12 @@
                 {{ record.discount_value }}%
               </a>
               <a v-if="record.discount_type == 2"
-                >{{ record.discount_value }} vnđ</a
+                >{{ record.discount_value }}Đ</a
               >
               <a v-if="record.discount_type == 3"> Loại khác </a>
             </template>
             <template v-if="column.key === 'max_discount'">
-              <a> {{ record.max_discount }} vnđ</a>
+              {{ record.max_discount }}Đ
             </template>
             <template v-if="column.key === 'start_time'">
               {{ dateTime(record.start_time) }}
@@ -45,7 +45,7 @@
             </template>
             <template v-else-if="column.key === 'action'">
               <span>
-                <EditVoucher :supplier="record"></EditVoucher>
+                <EditVoucher :voucher="record"></EditVoucher>
                 <a-divider type="vertical" />
                 <a @click="deleteSupplier(record.id)">Xóa</a>
               </span>
@@ -61,7 +61,6 @@ import AddVoucher from "../components/Voucher/AddVoucher.vue";
 import EditVoucher from "../components/Voucher/EditVoucher.vue";
 import { storeToRefs } from "pinia";
 import { voucherStore } from "@/store";
-import moment from "moment";
 
 export default {
   components: { AddVoucher, EditVoucher },
@@ -117,7 +116,7 @@ export default {
 
   methods: {
     dateTime(value) {
-      return moment.utc(value).local().format("DD/MM/YYYY");
+      return this.$dayjs.utc(value).local().format("DD/MM/YYYY HH:mm:ss");
     },
     deleteSupplier(id) {
       this.voucherS.deleteVoucher(id);

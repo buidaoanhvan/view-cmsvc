@@ -65,12 +65,31 @@ export const voucherStore = defineStore({
       }
     },
 
-    async updateVoucher(id, name, email, phone) {
+    async updateVoucher(
+      id,
+      brandId,
+      supplierId,
+      title,
+      description,
+      image,
+      discount_value,
+      discount_type,
+      max_discount,
+      start_time,
+      end_time
+    ) {
       try {
         const res = await Axios.patch(api_link.voucher + "/" + id, {
-          name,
-          email,
-          phone,
+          brandId,
+          supplierId,
+          title,
+          description,
+          image,
+          discount_value,
+          discount_type,
+          max_discount,
+          start_time,
+          end_time,
         });
         if (res.data.statusCode == 200) {
           this.getVoucherAll();
