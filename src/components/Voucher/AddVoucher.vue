@@ -22,7 +22,8 @@
         />
         <!-- Mô tả: -->
         <a-typography-text type="secondary">Mô tả:</a-typography-text>
-        <a-input
+        <a-textarea
+          :rows="2"
           v-model:value="description"
           placeholder="Mô tả"
           style="margin-bottom: 15px"
