@@ -62,6 +62,8 @@ import {
   TeamOutlined,
   SendOutlined,
   DashboardOutlined,
+  BranchesOutlined,
+  PullRequestOutlined,
 } from "@ant-design/icons-vue";
 import LoadingVue from "./components/Loading.vue";
 import { storeToRefs } from "pinia";
@@ -80,6 +82,8 @@ export default {
     TeamOutlined,
     SendOutlined,
     DashboardOutlined,
+    BranchesOutlined,
+    PullRequestOutlined,
     LoadingVue,
   },
   data() {
@@ -108,6 +112,18 @@ export default {
           key: "voucher",
           title: "Voucher",
           icon: "BarcodeOutlined",
+        },
+        {
+          routerName: "layvoucher",
+          key: "layvoucher",
+          title: "Lấy voucher",
+          icon: "BranchesOutlined",
+        },
+        {
+          routerName: "yeucau",
+          key: "yeucau",
+          title: "Yêu cầu",
+          icon: "PullRequestOutlined",
         },
         {
           routerName: "nguoidung",

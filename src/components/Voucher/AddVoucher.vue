@@ -28,13 +28,6 @@
           placeholder="Mô tả"
           style="margin-bottom: 15px"
         />
-        <!-- Hình ảnh: -->
-        <a-typography-text type="secondary">Hình ảnh:</a-typography-text>
-        <a-input
-          v-model:value="image"
-          placeholder="Hình ảnh"
-          style="margin-bottom: 15px"
-        />
         <!-- Thương hiệu cung cấp: -->
         <div class="select-box">
           <a-typography-text type="secondary"
@@ -60,6 +53,19 @@
           style="width: 100%; margin-bottom: 15px"
           @change="onChangeStart"
         />
+        <!-- Hình ảnh: -->
+        <a-upload
+          v-model:file-list="fileList"
+          list-type="picture"
+          :max-count="1"
+          action="http://localhost:3000/upload"
+          :headers="headers"
+        >
+          <a-button>
+            <upload-outlined></upload-outlined>
+            Tải ảnh thương hiệu
+          </a-button>
+        </a-upload>
       </a-col>
       <a-col :span="12" class="box-add-vc">
         <!-- Giá trị voucher: -->
@@ -117,7 +123,7 @@
   </a-modal>
 </template>
 <script>
-import { brandStore, supplierStore, voucherStore } from "@/store";
+import { brandStore, supplierStore, voucherStore, authStore } from "@/store";
 import { storeToRefs } from "pinia";
 
 export default {
@@ -125,9 +131,10 @@ export default {
     const brandS = brandStore();
     const supplierS = supplierStore();
     const voucherS = voucherStore();
+    const auth = authStore();
     const { listBrand } = storeToRefs(brandS);
     const { listSupplier } = storeToRefs(supplierS);
-    return { brandS, supplierS, listBrand, listSupplier, voucherS };
+    return { brandS, supplierS, listBrand, listSupplier, voucherS, auth };
   },
 
   data() {
@@ -143,6 +150,7 @@ export default {
       image: "",
       start_time: "",
       end_time: "",
+      fileList: [],
       options_discount_type: [
         {
           value: 1,
@@ -157,6 +165,9 @@ export default {
           label: "Giảm theo cách thức khác",
         },
       ],
+      headers: {
+        authorization: `Bearer ${this.auth.user.token}`,
+      },
     };
   },
 
@@ -204,8 +215,12 @@ export default {
         this.discount_type &&
         this.max_discount &&
         this.start_time &&
-        this.end_time
+        this.end_time &&
+        this.fileList.length > 0
       ) {
+        this.fileList.forEach((element) => {
+          this.image = element.response.url;
+        });
         this.voucherS.addVoucher(
           this.brandId,
           this.supplierId,
@@ -228,6 +243,7 @@ export default {
         this.max_discount = "";
         this.start_time = "";
         this.end_time = "";
+        this.fileList = [];
         this.visible = false;
       } else {
         this.$message.warning("Vui lòng điền đủ thông tin");

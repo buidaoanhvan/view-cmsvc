@@ -63,12 +63,12 @@ export default {
       if (this.name && this.fileList.length > 0) {
         this.fileList.forEach((element) => {
           this.imgUrl = element.response.url;
-          this.brand.addBrand(this.name, this.imgUrl);
-          this.name = "";
-          this.fileList = [];
-          this.imgUrl = "";
-          this.visible = false;
         });
+        this.brand.addBrand(this.name, this.imgUrl);
+        this.name = "";
+        this.fileList = [];
+        this.imgUrl = "";
+        this.visible = false;
       } else {
         this.$message.error("Vui lòng nhập tên thương hiệu và hình ảnh");
       }

@@ -7,6 +7,7 @@ const api_link = {
   supplier: url + "/supplier",
   voucher: url + "/voucher",
   codex: url + "/codex",
+  segment: url + "/segment",
 };
 
 export default api_link;

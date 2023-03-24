@@ -6,6 +6,9 @@ import BrandView from "@/views/BrandView.vue";
 import SupplierView from "@/views/SupplierView.vue";
 import VoucherView from "../views/VoucherView.vue";
 import PathNotFound from "../views/PathNotFound.vue";
+import SegmentView from "../views/SegmentView.vue";
+import SegmentRequestView from "../views/SegmentRequestView.vue";
+
 const routes = [
   {
     path: "/login",
@@ -41,6 +44,18 @@ const routes = [
     path: "/voucher",
     name: "voucher",
     component: VoucherView,
+    meta: { requiresAuth: true },
+  },
+  {
+    path: "/layvoucher",
+    name: "layvoucher",
+    component: SegmentView,
+    meta: { requiresAuth: true },
+  },
+  {
+    path: "/yeucau",
+    name: "yeucau",
+    component: SegmentRequestView,
     meta: { requiresAuth: true },
   },
   {

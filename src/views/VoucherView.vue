@@ -25,6 +25,9 @@
           :pagination="false"
         >
           <template #bodyCell="{ column, record }">
+            <template v-if="column.key === 'image'">
+              <a-image :width="100" :height="100" :src="record.image" />
+            </template>
             <template v-if="column.key === 'discount_value'">
               <a v-if="record.discount_type == 1">
                 {{ record.discount_value }}%
@@ -44,13 +47,24 @@
               {{ dateTime(record.end_time) }}
             </template>
             <template v-else-if="column.key === 'action'">
-              <span>
-                <EditVoucher :voucher="record"></EditVoucher>
-                <a-divider type="vertical" />
-                <a @click="deleteSupplier(record.id)">Xóa</a>
-                <a-divider type="vertical" />
-                <AddCodeVoucher :voucher="record"></AddCodeVoucher>
-              </span>
+              <a-dropdown-button>
+                <template #overlay>
+                  <a-menu>
+                    <a-menu-item key="1">
+                      <EditVoucher :voucher="record"></EditVoucher>
+                    </a-menu-item>
+                    <a-menu-item key="2">
+                      <AddCodeVoucher :voucher="record"></AddCodeVoucher>
+                    </a-menu-item>
+                    <a-menu-item key="1"
+                      ><a @click="deleteSupplier(record.id)"
+                        >Xóa</a
+                      ></a-menu-item
+                    >
+                  </a-menu>
+                </template>
+                <template #icon><DownOutlined /></template>
+              </a-dropdown-button>
             </template>
           </template>
         </a-table>
@@ -64,9 +78,10 @@ import EditVoucher from "../components/Voucher/EditVoucher.vue";
 import AddCodeVoucher from "@/components/Voucher/AddCodeVoucher.vue";
 import { storeToRefs } from "pinia";
 import { voucherStore } from "@/store";
+import { DownOutlined } from "@ant-design/icons-vue";
 
 export default {
-  components: { AddVoucher, EditVoucher, AddCodeVoucher },
+  components: { AddVoucher, EditVoucher, AddCodeVoucher, DownOutlined },
   setup() {
     const voucherS = voucherStore();
     const { listVoucher } = storeToRefs(voucherS);
@@ -75,6 +90,11 @@ export default {
   data() {
     return {
       columns: [
+        {
+          title: "Hình ảnh",
+          dataIndex: "image",
+          key: "image",
+        },
         {
           title: "Tên voucher",
           dataIndex: "title",
