@@ -63,7 +63,7 @@
         >
           <a-button>
             <upload-outlined></upload-outlined>
-            Tải ảnh thương hiệu
+            Tải hình ảnh voucher
           </a-button>
         </a-upload>
       </a-col>
@@ -125,6 +125,7 @@
 <script>
 import { brandStore, supplierStore, voucherStore, authStore } from "@/store";
 import { storeToRefs } from "pinia";
+import { UploadOutlined } from "@ant-design/icons-vue";
 
 export default {
   setup() {
@@ -136,7 +137,9 @@ export default {
     const { listSupplier } = storeToRefs(supplierS);
     return { brandS, supplierS, listBrand, listSupplier, voucherS, auth };
   },
-
+  components: {
+    UploadOutlined,
+  },
   data() {
     return {
       visible: false,
