@@ -11,11 +11,9 @@
           <a-dropdown-button>
             <template #overlay>
               <a-menu>
-                <!-- <a-menu-item key="1">Thêm người dùng</a-menu-item> -->
                 <AddUser></AddUser>
-                <a-menu-item key="2">Tạo chức vụ</a-menu-item>
-                <a-menu-item key="3">Tạo quyền</a-menu-item>
-                <a-menu-item key="4">Gắn quyền</a-menu-item>
+                <AddRoles></AddRoles>
+                <AddPermissions></AddPermissions>
               </a-menu>
             </template>
             <template #icon>...</template>
@@ -46,10 +44,14 @@ import { userStore } from "@/store";
 import { storeToRefs } from "pinia";
 // import { DownOutlined } from "@ant-design/icons-vue";
 import AddUser from "../components/User/AddUser.vue";
+import AddRoles from "@/components/User/AddRoles.vue";
+import AddPermissions from "../components/User/AddPermissions.vue";
 export default {
   components: {
     // DownOutlined,
     AddUser,
+    AddRoles,
+    AddPermissions,
   },
   setup() {
     const userS = userStore();
@@ -84,6 +86,7 @@ export default {
   created() {
     this.userS.getUserAll();
     this.userS.getRolesAll();
+    this.userS.getPermissionsAll();
   },
 };
 </script>

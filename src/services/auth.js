@@ -18,10 +18,12 @@ export function auth(router) {
     axios.interceptors.response.use(null, (error) => {
       if (error.response.status === 401) {
         auth.logout();
+        message.destroy();
         message.warning("Đăng xuất khỏi hệ thông");
         router.push("/login");
       }
       if (error.response.status === 403) {
+        message.destroy();
         message.warning("Bạn không có quyền truy cập");
       }
       return Promise.reject(error);

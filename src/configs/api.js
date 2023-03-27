@@ -11,6 +11,8 @@ const api_link = {
   codex: url + "/codex",
   segment: url + "/segment",
   roles: url + "/roles",
+  permissions: url + "/permissions",
+  role_permissions: url + "/role-permissions",
 };
 
 export default api_link;

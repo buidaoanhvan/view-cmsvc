@@ -20,14 +20,12 @@
       v-model:value="email"
       placeholder="Địa chỉ email"
       style="margin-bottom: 15px"
-      autocomplete="off"
     />
     <a-typography-text type="secondary">Liên hệ:</a-typography-text>
     <a-input
       v-model:value="phone"
       placeholder="Liên hệ"
       style="margin-bottom: 15px"
-      autocomplete="off"
     />
     <a-typography-text type="secondary">Mật khẩu:</a-typography-text>
     <a-input
@@ -35,12 +33,10 @@
       placeholder="Mật khẩu"
       style="margin-bottom: 15px"
       type="password"
-      autocomplete="off"
     />
     <div class="select-box">
       <a-typography-text type="secondary">Chức vụ:</a-typography-text>
       <a-select
-        v-model:value="roles"
         placeholder="Chọn đối tác"
         style="width: 100%; margin-bottom: 15px"
         :options="rolesList"
@@ -85,6 +81,7 @@ export default {
           this.password,
           this.roleId
         );
+        this.visible = false;
       } else {
         this.$message.error("Vui lòng nhập đủ thông tin!");
       }
