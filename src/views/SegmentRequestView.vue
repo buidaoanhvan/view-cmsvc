@@ -44,7 +44,10 @@
                     <a-menu-item key="2" @click="denySegment(record)"
                       >Từ chối</a-menu-item
                     >
-                    <a-menu-item key="2" @click="getCsv(record)"
+                    <a-menu-item
+                      v-if="record.status == 1"
+                      key="2"
+                      @click="getCsv(record)"
                       >Xuất file</a-menu-item
                     >
                   </a-menu>

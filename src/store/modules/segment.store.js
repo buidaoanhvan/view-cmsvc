@@ -79,11 +79,9 @@ export const segmentStore = defineStore({
     async getCsv(id) {
       try {
         await Axios.get(api_link.segment + "/csv/" + id).then((response) => {
-          SaveAs(
-            new Blob([response.data], { type: "application/octet-stream" }),
-            "data.csv",
-            { autoBOM: false }
-          );
+          SaveAs(new Blob([response.data], { type: "text/csv" }), "data.csv", {
+            autoBOM: false,
+          });
         });
       } catch (error) {
         message.error("Vui lòng thử lại sau");
