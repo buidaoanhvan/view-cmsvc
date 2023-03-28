@@ -16,12 +16,12 @@ export const segmentStore = defineStore({
         const res = await Axios.get(api_link.segment);
         if (res.data.statusCode == 200) {
           this.listSegment = res.data.data;
-          console.log(this.listSegment);
+          // console.log(this.listSegment);
         } else {
-          console.log(res.data.message);
+          // console.log(res.data.message);
         }
       } catch (error) {
-        console.log(error);
+        // console.log(error);
       }
     },
 
@@ -79,6 +79,10 @@ export const segmentStore = defineStore({
     async getCsv(id) {
       try {
         await Axios.get(api_link.segment + "/csv/" + id).then((response) => {
+          if (response.data.statusCode == 400) {
+            message.warning(response.data.message);
+            return;
+          }
           SaveAs(new Blob([response.data], { type: "text/csv" }), "data.csv", {
             autoBOM: false,
           });

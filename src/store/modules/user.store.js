@@ -20,10 +20,10 @@ export const userStore = defineStore({
         if (res.data.code == 200) {
           this.listUser = res.data.data;
         } else {
-          console.log(res.data.message);
+          // console.log(res.data.message);
         }
       } catch (error) {
-        console.log(error);
+        // console.log(error);
       }
     },
     async getPermissionsAll() {
@@ -37,10 +37,10 @@ export const userStore = defineStore({
             this.permissionsList.push(i);
           });
         } else {
-          console.log(res.data.message);
+          // console.log(res.data.message);
         }
       } catch (error) {
-        console.log(error);
+        // console.log(error);
       }
     },
     async getRolesAll() {
@@ -49,10 +49,10 @@ export const userStore = defineStore({
         if (res.data.statusCode == 200) {
           this.rolesList = res.data.data;
         } else {
-          console.log(res.data.message);
+          // console.log(res.data.message);
         }
       } catch (error) {
-        console.log(error);
+        // console.log(error);
       }
     },
     async addUser(fullname, email, phone, password, role_id) {
@@ -114,7 +114,7 @@ export const userStore = defineStore({
           });
         }
       } catch (error) {
-        console.log(error);
+        // console.log(error);
       }
     },
     async updatePermissionRole(roleId, listPermission) {

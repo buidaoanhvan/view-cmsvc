@@ -81,7 +81,7 @@ export default {
       this.visible = true;
     },
     handleOk() {
-      console.log(this.voucher);
+      // console.log(this.voucher);
     },
     dateTime(value) {
       return this.$dayjs.utc(value).local().format("DD/MM/YYYY HH:mm:ss");

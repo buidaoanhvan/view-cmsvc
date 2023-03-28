@@ -16,10 +16,10 @@ export const brandStore = defineStore({
         if (res.data.statusCode == 200) {
           this.listBrand = res.data.data;
         } else {
-          console.log(res.data.message);
+          // console.log(res.data.message);
         }
       } catch (error) {
-        console.log(error);
+        // console.log(error);
       }
     },
 
