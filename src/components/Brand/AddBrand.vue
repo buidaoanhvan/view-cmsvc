@@ -20,7 +20,7 @@
       v-model:file-list="fileList"
       list-type="picture"
       :max-count="1"
-      action="http://localhost:3000/upload"
+      :action="url_upload"
       :headers="headers"
     >
       <a-button>
@@ -34,6 +34,7 @@
 import { UploadOutlined } from "@ant-design/icons-vue";
 import { authStore } from "../../store/index";
 import { brandStore } from "../../store/index";
+import api_link from "@/configs/api";
 
 export default {
   components: {
@@ -53,6 +54,7 @@ export default {
       headers: {
         authorization: `Bearer ${this.auth.user.token}`,
       },
+      url_upload: api_link.upload,
     };
   },
   methods: {

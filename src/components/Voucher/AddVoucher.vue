@@ -58,7 +58,7 @@
           v-model:file-list="fileList"
           list-type="picture"
           :max-count="1"
-          action="http://localhost:3000/upload"
+          :action="url_upload"
           :headers="headers"
         >
           <a-button>
@@ -126,6 +126,7 @@
 import { brandStore, supplierStore, voucherStore, authStore } from "@/store";
 import { storeToRefs } from "pinia";
 import { UploadOutlined } from "@ant-design/icons-vue";
+import api_link from "@/configs/api";
 
 export default {
   setup() {
@@ -171,6 +172,7 @@ export default {
       headers: {
         authorization: `Bearer ${this.auth.user.token}`,
       },
+      url_upload: api_link.upload,
     };
   },
 

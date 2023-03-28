@@ -1,5 +1,5 @@
-// const url = "http://192.168.0.188:3000";
-const url = "http://localhost:3000";
+const url = "http://api-cmsvc.codezip.one";
+// const url = "http://localhost:3000";
 const api_link = {
   login: url + "/auth/login",
   register: url + "/auth/register",
@@ -13,6 +13,7 @@ const api_link = {
   roles: url + "/roles",
   permissions: url + "/permissions",
   role_permissions: url + "/role-permissions",
+  upload: url + "/upload",
 };
 
 export default api_link;
