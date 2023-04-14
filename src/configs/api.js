@@ -1,5 +1,5 @@
-const url = "https://api-cmsvc.codezip.one";
-// const url = "http://localhost:3000";
+// const url = "https://api-cmsvc.codezip.one";
+const url = "http://localhost:3000";
 const api_link = {
   login: url + "/auth/login",
   register: url + "/auth/register",
